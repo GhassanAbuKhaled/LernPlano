@@ -1,0 +1,59 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  overflow-x: hidden !important;
+}
+
+.moving-text {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  animation: shakeText 5s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite;
+}
+
+@keyframes shakeText {
+
+  0%,
+  90%,
+  100% {
+    transform: translate(-50%, -50%) rotate(6deg);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translate(-50%, -50%) rotate(-6deg);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translate(-50%, -50%) rotate(6deg);
+  }
+}
+
+.toast-header {
+  background: #C02425;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #F0CB35, #C02425);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #F0CB35, #C02425); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.toast-body , .modal-footer {
+  background-color: white !important;
+}
+
+.content{
+  min-height: 600px;
+}

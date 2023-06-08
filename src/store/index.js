@@ -1,14 +1,15 @@
 import { createStore } from 'vuex'
+import Interaktionen from './data/interaktionen'
+import componentData from './data/componentData'
 
-export default createStore({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
+
+
+
+const store = createStore({
   modules: {
+    Interaktionen,
+    componentData
   }
 })
+
+export default store
