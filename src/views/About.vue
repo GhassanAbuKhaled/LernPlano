@@ -1,6 +1,6 @@
 <template>
     <!-- content is a global class in (public/global.css) -->
-  <div class="content text-cenetr">
+  <div class="content text-cenetr mt-5">
     <!-- content of the page -->
 
     <div class="container mt-5">
@@ -13,7 +13,7 @@
     
     <p>I hope you find LernPlano useful and enjoyable to use. If you have any feedback, questions, or suggestions, please don't hesitate to reach out to me through the provided contact information.</p>
     
-    <p>Thank you for using LernPlano!</p>
+    <p class="mb-5">Thank you for using LernPlano!</p>
     <p><strong>Email: </strong><a href="mailto:ghassanabokhaled@gmail.com">ghassanabokhaled@gmail.com</a>.</p>
     <p><strong>github:</strong><a href="https://gist.github.com/GhassanAbuKhaled"><i class="bi bi-github m-2"></i></a></p>
   </div>
