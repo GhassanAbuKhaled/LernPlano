@@ -9,7 +9,6 @@ export default {
   data() {
     return {
       pdfDoc: null,
-      form: null,
       page: null,
       pageHeight: 780,
       currentHeight: 0,

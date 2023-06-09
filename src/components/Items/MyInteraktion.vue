@@ -38,7 +38,6 @@
 
 <script>
 import { Tooltip } from "bootstrap/dist/js/bootstrap.js";
-import { rgbToHex } from "@/utils/rightClickUtils";
 export default {
   data() {
     return {
