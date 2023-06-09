@@ -5,6 +5,7 @@
         <MyLinkes :margin="'1'"></MyLinkes>
         <li class="nav-item me-"> <router-link :to="{ name: 'impressum' }" class="nav-link ">Impressum</router-link></li>
         <li class="nav-item me-"> <router-link :to="{ name: 'datenschutzerklärung' }" class="nav-link ">Datenschutzerklärung</router-link></li>
+        <li class="nav-item me-"> <router-link :to="{ name: 'datenschutzerklärung' }" class="nav-link ">Lizenz</router-link></li>
 
       </ul>
       <p class="text-center">© 2023 Lehrplano</p>

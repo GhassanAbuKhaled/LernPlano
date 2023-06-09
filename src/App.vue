@@ -1,9 +1,8 @@
 <template>
   <div>
-  
     <Navbar></Navbar>
-    <router-view />
-    <MyFooter />
+    <router-view></router-view>
+    <MyFooter></MyFooter>
     <MyToast></MyToast>
     <MyAlert></MyAlert>
   </div>
