@@ -2,7 +2,7 @@
   <div class="footer">
     <footer class="py-3">
       <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-        <MyLinkes :margin="'1'"></MyLinkes>
+        <MyLinks :margin="'1'"></MyLinks>
         <li class="nav-item me-"> <router-link :to="{ name: 'impressum' }" class="nav-link ">Impressum</router-link></li>
         <li class="nav-item me-"> <router-link :to="{ name: 'datenschutzerklärung' }" class="nav-link ">Datenschutzerklärung</router-link></li>
         <li class="nav-item me-"> <router-link :to="{ name: 'datenschutzerklärung' }" class="nav-link ">Lizenz</router-link></li>
@@ -13,10 +13,10 @@
   </div>
 </template>
 <script>
-import MyLinkes from '../Nav/MyLinkes.vue';
+import MyLinks from '../Nav/MyLinks.vue';
 export default {
   name: 'MyFooter',
-  components: { MyLinkes },
+  components: { MyLinks },
 }
 </script>
 <style scoped>

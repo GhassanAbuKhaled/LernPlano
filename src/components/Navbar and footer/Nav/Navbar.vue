@@ -13,7 +13,7 @@
         </button>
         <div class="navbar-collapse collapse" id="navContent">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <MyLinkes :margin="'5'"></MyLinkes>
+            <MyLinks :margin="'5'"></MyLinks>
           </ul>
         </div>
       </div>
@@ -22,11 +22,11 @@
 </template>
 
 <script>
-import MyLinkes from '../Nav/MyLinkes.vue';
+import MyLinks from '../Nav/MyLinks.vue';
 
 export default {
   name: 'Navbar',
-  components: { MyLinkes }
+  components: { MyLinks }
 };
 </script>
   
