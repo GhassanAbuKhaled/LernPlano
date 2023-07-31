@@ -5,6 +5,7 @@ import About from "../views/About.vue";
 import Contact from "../views/Contact.vue";
 import Impressum from "../views/Impressum.vue"
 import Datenschutzerklaerung from "../views/Datenschutzerklaerung"
+import Lizenz from "../views/Lizenz"
 
 const routes = [
   {
@@ -37,6 +38,12 @@ const routes = [
     name: "datenschutzerklaerung",
     component: Datenschutzerklaerung,
   },
+  {
+    path: "/lizenz",
+    name: "lizenz",
+    component: Lizenz,
+  }
+
 
 ];
 
