@@ -4,7 +4,7 @@ import Main from "../views/Main.vue";
 import About from "../views/About.vue";
 import Contact from "../views/Contact.vue";
 import Impressum from "../views/Impressum.vue"
-import Datenschutzerklärung from "../views/Datenschutzerklärung"
+import Datenschutzerklaerung from "../views/Datenschutzerklaerung"
 
 const routes = [
   {
@@ -33,9 +33,9 @@ const routes = [
     component: Impressum,
   },
   {
-    path: "/datenschutzerklärung",
-    name: "datenschutzerklärung",
-    component: Datenschutzerklärung,
+    path: "/datenschutzerklaerung",
+    name: "datenschutzerklaerung",
+    component: Datenschutzerklaerung,
   },
 
 ];
