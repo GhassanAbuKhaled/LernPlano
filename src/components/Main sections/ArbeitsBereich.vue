@@ -38,7 +38,7 @@ export default {
 </script>
 <style scoped>
 #ArbeitsBereich {
-  min-height: 800px;
+  min-height: 100vh;
   transition: transform 0.3s ease;
 }
 .imagesTap img {
