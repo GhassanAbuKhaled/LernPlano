@@ -1,5 +1,5 @@
 <template>
-  <div class="container-xxl font-monospace">
+  <div class="containerOfSection">
     <!-- Section with div elements -->
     <section>
       <div></div>
@@ -15,8 +15,8 @@
       <div></div>
       <!-- Placeholder div -->
     </section>
-  </div>
-  <div class="p-5 text-center mb-5">
+
+    <div class="p-5 text-center mb-5">
     <i class="bi bi-mortarboard-fill moving-text"></i>
     <h1 class="mb-4">Lernplano</h1>
     <h5 class="mb-4">Bergische Universität Wuppertal</h5>
@@ -29,6 +29,8 @@
       Lernpfad hochladen
     </button>
   </div>
+  </div>
+
 </template>
 
 <script>
@@ -180,14 +182,16 @@ export default {
 section {
   display: grid;
   height: 100%;
-  grid-template-columns: repeat(10, auto);
+  grid-template-columns: repeat(10, auto); /* Use 1fr instead of auto */
 }
-.container-xxl {
+
+.containerOfSection {
+  width: 100vw; /* Set the width to 100vw to cover the full viewport width */
   height: 100vh;
-  width: 100%;
   overflow: hidden;
   position: relative;
 }
+
 section div {
   background-color: white;
   transition: background-color 1s;
@@ -195,7 +199,7 @@ section div {
 .text-center {
   width: 100%;
   position: absolute;
-  top: 60px;
+  top: 50%;
   opacity: 0;
 }
 i {
