@@ -1,7 +1,7 @@
 <template>
   <header>
     <nav class="navbar navbar-dark navbar-expand-lg">
-      <div class="container container-fluid mt-1 mb-1">
+      <div class="containerOfLinks container-fluid mt-1 mb-1">
         <div class="navbar-brand">
           <img src="@/assets/BUW_Logo.png" width="50" alt="logo">
           <router-link to="/">Lernplano</router-link>
@@ -34,13 +34,17 @@ export default {
 .navbar {
   background: rgb(131, 187, 44);
   z-index: 1;
-  margin: 0;
 }
 
 .navbar-brand {
   position: relative;
+  margin: 0;
 }
-
+.containerOfLinks{
+  margin: 0;
+  width: 100%;
+  margin: 1%;
+}
 .navbar-brand a {
   font-size: medium;
   position: absolute;
