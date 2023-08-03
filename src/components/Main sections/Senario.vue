@@ -153,8 +153,8 @@ export default {
 
 <style scoped>
 .senarioContainer {
-  min-height: 500px;
-  max-height: 530px;
+  min-height: 700px;
+  max-height: 730px;
   display: flex;
   margin-bottom: 200px;
   padding-bottom: 200px !important;
