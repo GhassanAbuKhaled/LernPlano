@@ -2,7 +2,7 @@
     <li :class="'nav-item me-' + margin"><router-link to="/" class="nav-link active" aria-current="page">Start</router-link></li>
     <li :class="'nav-item me-' + margin"> <router-link :to="{ name: 'main' }" class="nav-link active">Planen</router-link></li>
     <li :class="'nav-item me-' + margin"><router-link :to="{ name: 'about' }" class="nav-link active">Über uns</router-link></li>
-    <li :class="'nav-item me-' + margin"> <router-link :to="{ name: 'contact' }" class="nav-link active">Kontakt</router-link></li>
+    <li :class="'nav-item me-' + margin"><a target="_blank" href='http://zim.uni-wuppertal.de/de/wir-ueber-uns/personen/ansicht/seehagen-marx/' class="nav-link active">Kontakt</a></li>
 </template>
 <script>
 export default {
