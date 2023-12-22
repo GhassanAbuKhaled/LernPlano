@@ -1,13 +1,14 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, routes } from "vue-router";
 import Home from "../views/Home.vue";
 import Main from "../views/Main.vue";
 import About from "../views/About.vue";
 import Contact from "../views/Contact.vue";
-import Impressum from "../views/Impressum.vue"
-import Datenschutzerklaerung from "../views/Datenschutzerklaerung"
-import Lizenz from "../views/Lizenz"
+import Impressum from "../views/Impressum.vue";
+import Datenschutzerklaerung from "../views/Datenschutzerklaerung";
+import Lizenz from "../views/Lizenz";
+import PageNotFound from "../views/PageNotFound";
 
-const routes = [
+routes = [
   {
     path: "/",
     name: "home",
@@ -42,14 +43,17 @@ const routes = [
     path: "/lizenz",
     name: "lizenz",
     component: Lizenz,
-  }
-
-
+  },
+  {
+    path: "/:catchAll(.*)*",
+    name: "PageNotFound",
+    component: PageNotFound,
+  },
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes,
+  history: createWebHistory("/apps/lernplano/"),
+  routes: routes,
 });
 
 export default router;
