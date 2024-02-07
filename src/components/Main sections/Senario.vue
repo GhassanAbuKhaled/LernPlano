@@ -1,5 +1,5 @@
 <template>
-  <input v-show="false" type="file" ref="formFile" @change="handleFile" />
+  <input v-show="false" type="file" ref="formFile" accept="image/*" multiple @change="handleFile" />
 
   <div :id="id" class="position-relative senario">
     <div class="senarioContainer m-2  pb-5 shadow-lg bg-body-tertiary rounded" ref="senarioContainer" :id="'senarioContainer'+id">

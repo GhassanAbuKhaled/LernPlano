@@ -194,7 +194,9 @@ const state = {
     },
   },
 };
+
 const mutations = {
+ 
   addInteraktion: (state, data) => {
     const content = state.content[data.interaktion]; // Get the content object from the state
   

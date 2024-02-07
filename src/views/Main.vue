@@ -1,7 +1,5 @@
 <template>
-  <!-- Alle Interaktionen -->
   <Backdrop></Backdrop>
-  <!-- Ausgewählt Interaktionen -->
   <OffCanvasRight></OffCanvasRight>
   <PfadInfo></PfadInfo> 
   <div class="m-4">
