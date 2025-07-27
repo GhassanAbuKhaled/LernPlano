@@ -7,6 +7,7 @@
     <MyFooter></MyFooter>
     <MyToast></MyToast>
     <MyAlert></MyAlert>
+    <PdfProgressModal></PdfProgressModal>
   </div>
 </template>
 
@@ -15,9 +16,10 @@ import MyFooter from './components/Navbar and footer/Footer/MyFooter.vue';
 import Navbar from './components/Navbar and footer/Nav/Navbar.vue';
 import MyToast from './components/Alert/MyToast.vue';
 import MyAlert from './components/Alert/MyAlert.vue';
+import PdfProgressModal from './components/UI/PdfProgressModal.vue';
 
 export default {
-  components: { MyFooter, Navbar ,MyToast , MyAlert },
+  components: { MyFooter, Navbar, MyToast, MyAlert, PdfProgressModal },
   watch: {
     '$route'(to, from) {
       /*because when I move to another page using the back arrow in the browser, 

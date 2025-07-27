@@ -21,6 +21,10 @@ export default {
       centerX: 0,
       senarioKey: null,
       save: true,
+      isGenerating: false,
+      progress: 0,
+      currentStep: '',
+      totalSteps: 0,
     };
   },
   computed: {
@@ -31,16 +35,30 @@ export default {
 
   methods: {
     async createPdf() {
+      this.startProgress();
+      this.updateProgress(10, 'PDF-Dokument wird initialisiert...');
+      
       this.pdfDoc = await PDFDocument.create();
-      this.myFont = await this.pdfDoc.embedFont(StandardFonts.CourierBold);
-      this.senarioTitleFont = await this.pdfDoc.embedFont(
-        StandardFonts.TimesRomanBoldItalic
-      );
+      this.updateProgress(20, 'Schriftarten werden geladen...');
+      // Use fonts that properly support German characters
+      try {
+        // Try to use fonts with better Unicode support
+        this.myFont = await this.pdfDoc.embedFont(StandardFonts.TimesRoman);
+        this.senarioTitleFont = await this.pdfDoc.embedFont(StandardFonts.TimesRomanBold);
+      } catch (error) {
+        // Fallback to Helvetica if Times fails
+        this.myFont = await this.pdfDoc.embedFont(StandardFonts.Helvetica);
+        this.senarioTitleFont = await this.pdfDoc.embedFont(StandardFonts.HelveticaBold);
+      }
+      
+      this.updateProgress(30, 'Logo wird geladen...');
       const imageLogoBytes = await fetch(wuppertalLogo).then((res) => res.arrayBuffer());
       this.wuppertalLogo = await this.pdfDoc.embedPng(imageLogoBytes);
+      this.updateProgress(40, 'Titelseite wird erstellt...');
       this.firstPageInitialization();
       this.pagesCount = 0;
       this.save = true;
+      
       if (
         this.$store.state.componentData.LernPfadName ||
         this.$store.state.componentData.Lernziele
@@ -52,31 +70,40 @@ export default {
         this.$store.state.componentData.Lernziele,
         "Beschreibung der Lernziele: "
       );
+      
+      const senarioKeys = Object.keys(this.senarios);
+      this.totalSteps = senarioKeys.length;
 
-      for (const senarioKey of Object.keys(this.senarios)) {
-        const ids = $(`#senarioContainer${senarioKey}`)
-          .children()
-          .map(function () {
-            return $(this).attr("id");
-          })
-          .get();
+      for (let i = 0; i < senarioKeys.length; i++) {
+        const senarioKey = senarioKeys[i];
+        const progressPercent = 50 + (i / senarioKeys.length) * 40;
+        this.updateProgress(progressPercent, `Szenario ${i + 1}/${senarioKeys.length} wird verarbeitet...`);
+        
+        // Get component IDs from store data instead of DOM
+        const componentData = this.senarios[senarioKey].component || {};
+        const ids = Object.keys(componentData);
         this.senarioKey = senarioKey;
-        this.newPageInitialization();
-        this.addSenarioTitle();
-        this.interaktionCount = 0;
-        for (const compKey of ids) {
-          const component = this.senarios[senarioKey].component[compKey];
-          if (component.hasOwnProperty("name")) this.addInteraktion(component);
-          if (component.hasOwnProperty("date")) this.addText(component.date, "Date: ");
-          if (component.hasOwnProperty("circles"))
-            await this.addImage(this.senarios[senarioKey].imgSrc, compKey);
-          if (component.hasOwnProperty("text"))
-            this.addText(component.text, "Kommentar: ");
-          if (component.hasOwnProperty("url")) this.addText(component.url, "URL: ");
+        
+        if (ids.length > 0) {
+          this.newPageInitialization();
+          this.addSenarioTitle();
+          this.interaktionCount = 0;
+          
+          for (const compKey of ids) {
+            const component = this.senarios[senarioKey].component[compKey];
+            if (component.hasOwnProperty("name")) this.addInteraktion(component);
+            if (component.hasOwnProperty("date")) this.addText(component.date, "Date: ");
+            if (component.hasOwnProperty("circles"))
+              await this.addImage(this.senarios[senarioKey].imgSrc, compKey);
+            if (component.hasOwnProperty("text"))
+              this.addText(component.text, "Kommentar: ");
+            if (component.hasOwnProperty("url")) this.addText(component.url, "URL: ");
+          }
         }
       }
 
       if (this.save) {
+        this.updateProgress(95, 'PDF wird finalisiert...');
         const pdfBytes = await this.pdfDoc.save();
         const pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
         const downloadLink = URL.createObjectURL(pdfBlob);
@@ -84,7 +111,10 @@ export default {
         link.href = downloadLink;
         link.download = "lernPfad.pdf";
         link.click();
+        this.updateProgress(100, 'PDF erfolgreich erstellt!');
       }
+      
+      this.finishProgress();
     },
 
     addPageIfNeeded(elementHeight) {
@@ -127,7 +157,7 @@ export default {
 
     addSenarioTitle() {
       const center = (this.page.getWidth() - 60) / 2;
-      this.page.drawText(`${this.senarioKey}`, {
+      this.page.drawText(this.sanitizeText(this.senarioKey), {
         size: 16,
         x: center,
         font: this.senarioTitleFont,
@@ -140,12 +170,15 @@ export default {
       const col = this.hexToRgb(component.color);
       this.addPageIfNeeded(25);
       try {
-        this.page.drawText(
-          `(${++this.interaktionCount})-${component.name} | Taxonomie: ${
-            component.taxonomie
-          } | Bewertung: ${component.bewertung}`,
-          { x: 60, size: 10, color: rgb(col.r, col.g, col.b) }
-        );
+        const interactionText = `(${++this.interaktionCount})-${component.name} | Taxonomie: ${
+          component.taxonomie
+        } | Bewertung: ${component.bewertung}`;
+        
+        this.page.drawText(this.sanitizeText(interactionText), {
+          x: 60, 
+          size: 10, 
+          color: rgb(col.r, col.g, col.b)
+        });
       } catch (error) {
         this.save = false;
         console.log(error.message);
@@ -163,7 +196,7 @@ export default {
         this.addPageIfNeeded(50);
         const col = this.hexToRgb("#FF0000");
         this.page.moveDown(25);
-        this.page.drawText(`${title}`, {
+        this.page.drawText(this.sanitizeText(title), {
           size: 14,
           x: 60,
           color: rgb(col.r, col.g, col.b),
@@ -175,7 +208,7 @@ export default {
         lines.forEach((line) => {
           this.addPageIfNeeded(25);
           try {
-            this.page.drawText(`${line}`, { size: 10, x: 60 });
+            this.page.drawText(this.sanitizeText(line), { size: 10, x: 60 });
           } catch (error) {
             this.save = false;
             console.log(error.message);
@@ -191,6 +224,7 @@ export default {
     },
 
     async addImage(src, compKey) {
+      this.updateProgress(this.progress + 2, 'Bild wird verarbeitet...');
       const image = await this.pdfDoc.embedJpg(src);
       this.imageSize = image.scale(0.7);
       this.centerX = (this.page.getWidth() - this.imageSize.width) / 2;
@@ -235,22 +269,22 @@ export default {
       });
       this.page.moveUp(imageSize.height / 4);
       this.page.moveDown(width / 2.5);
-      this.page.drawText(`ZIM - Zentrum für Informations- und Medienverarbeitung`, {
+      this.page.drawText(this.sanitizeText(`ZIM - Zentrum für Informations- und Medienverarbeitung`), {
         x: 70,
-        size: 14,
-        font: this.myFont,
+        size: 16,
+        font: this.senarioTitleFont,
       });
       this.page.moveDown(25);
-      this.page.drawText(`Bergische Universität Wuppertal`, {
+      this.page.drawText(this.sanitizeText(`Bergische Universität Wuppertal`), {
         x: 160,
-        size: 13,
+        size: 14,
         font: this.myFont,
       });
       this.page.moveDown(25);
       this.page.drawText(`LernPlano`, {
         x: 250,
-        size: 13,
-        font: this.myFont,
+        size: 18,
+        font: this.senarioTitleFont,
       });
       this.page.drawRectangle({
         x: 0,
@@ -266,7 +300,7 @@ export default {
       text = text.replace(/\n/g, "");
       let lines = [];
       let currentLine = "";
-      const maxLength = 70;
+      const maxLength = 90;
 
       const words = text.split(" ");
       for (let i = 0; i < words.length; i++) {
@@ -314,6 +348,53 @@ export default {
       const g = parseInt(hex.substring(2, 4), 16) / 255;
       const b = parseInt(hex.substring(4, 6), 16) / 255;
       return { r, g, b };
+    },
+    
+    sanitizeText(text) {
+      if (!text) return '';
+      // Replace German characters with ASCII equivalents for reliable PDF rendering
+      return text
+        .replace(/ä/g, 'ae')  // ä
+        .replace(/ö/g, 'oe')  // ö
+        .replace(/ü/g, 'ue')  // ü
+        .replace(/Ä/g, 'Ae')  // Ä
+        .replace(/Ö/g, 'Oe')  // Ö
+        .replace(/Ü/g, 'Ue')  // Ü
+        .replace(/ß/g, 'ss'); // ß
+    },
+    
+    startProgress() {
+      this.isGenerating = true;
+      this.progress = 0;
+      this.currentStep = 'Wird gestartet...';
+      this.$store.state.componentData.pdfProgress = {
+        isGenerating: true,
+        progress: 0,
+        currentStep: this.currentStep
+      };
+    },
+    
+    updateProgress(percent, step) {
+      this.progress = percent;
+      this.currentStep = step;
+      this.$store.state.componentData.pdfProgress = {
+        isGenerating: true,
+        progress: percent,
+        currentStep: step
+      };
+    },
+    
+    finishProgress() {
+      setTimeout(() => {
+        this.isGenerating = false;
+        this.progress = 0;
+        this.currentStep = '';
+        this.$store.state.componentData.pdfProgress = {
+          isGenerating: false,
+          progress: 0,
+          currentStep: ''
+        };
+      }, 1500);
     },
   },
 };

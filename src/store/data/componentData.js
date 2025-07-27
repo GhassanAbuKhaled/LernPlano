@@ -7,6 +7,11 @@ const state = {
   Lernziele: null,
   LernPfadName: null,
   senariosOrder: [], // Inside componentData
+  pdfProgress: {
+    isGenerating: false,
+    progress: 0,
+    currentStep: ''
+  },
 };
 const mutations = {
   updateOrder: (state, data) => {
