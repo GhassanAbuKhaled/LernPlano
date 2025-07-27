@@ -23,28 +23,26 @@ const routes = [
     name: "about",
     component: About,
   },
-  {
-    path: "/contact",
-    name: "contact",
-    component: Contact,
-  },
-  {
-    path: "/impressum",
-    name: "impressum",
-    component: Impressum,
-  },
-  {
-    path: "/datenschutzerklaerung",
-    name: "datenschutzerklaerung",
-    component: Datenschutzerklaerung,
-  },
-  {
-    path: "/lizenz",
-    name: "lizenz",
-    component: Lizenz,
-  }
-
-
+  // {
+  //   path: "/contact",
+  //   name: "contact",
+  //   component: Contact,
+  // },
+  // {
+  //   path: "/impressum",
+  //   name: "impressum",
+  //   component: Impressum,
+  // },
+  // {
+  //   path: "/datenschutzerklaerung",
+  //   name: "datenschutzerklaerung",
+  //   component: Datenschutzerklaerung,
+  // },
+  // {
+  //   path: "/lizenz",
+  //   name: "lizenz",
+  //   component: Lizenz,
+  // }
 ];
 
 const router = createRouter({

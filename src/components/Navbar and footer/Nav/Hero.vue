@@ -1,9 +1,7 @@
 <template>
-  <div class="containerOfSection">
-    <!-- Section with div elements -->
-    <section>
-      <div></div>
-      <!-- Placeholder div -->
+  <div class="hero-container">
+    <!-- Animated background section -->
+    <section class="animated-background" aria-hidden="true">
       <div></div>
       <div></div>
       <div></div>
@@ -13,24 +11,52 @@
       <div></div>
       <div></div>
       <div></div>
-      <!-- Placeholder div -->
+      <div></div>
     </section>
 
-    <div class="p-5 text-center mb-5">
-    <i class="bi bi-mortarboard-fill moving-text"></i>
-    <h1 class="mb-4">Lernplano</h1>
-    <h5 class="mb-4">Bergische Universität Wuppertal</h5>
-    <!-- Router link to 'main' -->
-    <router-link :to="{ name: 'main' }" role="button" class="btn btn-primary me-2 mb-2" ref="lernpfadErstellen">Lernpfad
-      erstellen</router-link>
-    <!-- File input and upload button -->
-    <input type="file" accept=".json" @change="handleFileUpload" class="d-none" ref="jsonFile" />
-    <button class="btn btn-primary me-2 mb-2" @click="this.$refs.jsonFile.click()">
-      Lernpfad hochladen
-    </button>
+    <div class="hero-content">
+      <div class="hero-icon-container">
+        <i class="bi bi-mortarboard-fill hero-icon moving-text" aria-hidden="true"></i>
+      </div>
+      
+      <div class="hero-text">
+        <h1 class="hero-title">Lernplano</h1>
+        <p class="hero-subtitle">Bergische Universität Wuppertal</p>
+        <p class="hero-description">Erstellen Sie interaktive Lernpfade für eine moderne Bildungserfahrung</p>
+      </div>
+      
+      <div class="hero-actions">
+        <router-link 
+          :to="{ name: 'main' }" 
+          class="btn btn-primary btn-lg" 
+          ref="lernpfadErstellen"
+          aria-label="Neuen Lernpfad erstellen"
+        >
+          <i class="bi bi-plus-circle" aria-hidden="true"></i>
+          <span>Lernpfad erstellen</span>
+        </router-link>
+        
+        <input 
+          type="file" 
+          accept=".json" 
+          @change="handleFileUpload" 
+          class="visually-hidden" 
+          ref="jsonFile" 
+          id="jsonFileInput"
+          aria-label="JSON-Datei für Lernpfad auswählen"
+        />
+        
+        <button 
+          class="btn btn-secondary btn-lg" 
+          @click="$refs.jsonFile.click()"
+          aria-label="Bestehenden Lernpfad hochladen"
+        >
+          <i class="bi bi-upload" aria-hidden="true"></i>
+          <span>Lernpfad hochladen</span>
+        </button>
+      </div>
+    </div>
   </div>
-  </div>
-
 </template>
 
 <script>
@@ -61,9 +87,9 @@ export default {
         })
         .add(
           {
-            targets: ".text-center",
-            top: "240px",
+            targets: ".hero-content",
             opacity: 1,
+            translateY: 0,
             duration: 2500,
           },
           "-=1600"
@@ -79,9 +105,12 @@ export default {
         autoplay: false,
       });
       // Play the squash animation on mouseover
-      $(".text-center").one("mouseover", () => {
-        squash.play();
-      });
+      const heroContent = document.querySelector(".hero-content");
+      if (heroContent) {
+        heroContent.addEventListener("mouseover", () => {
+          squash.play();
+        }, { once: true });
+      }
     },
     handleFileUpload(event) {
       const file = event.target.files[0];
@@ -179,43 +208,186 @@ export default {
 </script>
 
 <style scoped>
-section {
-  display: grid;
-  height: 100%;
-  grid-template-columns: repeat(10, auto); /* Use 1fr instead of auto */
-}
-
-.containerOfSection {
-  width: 100vw; /* Set the width to 100vw to cover the full viewport width */
+.hero-container {
+  width: 100vw;
   height: 100vh;
   overflow: hidden;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--gray-50) 0%, var(--primary-50) 100%);
 }
 
-section div {
-  background-color: white;
-  transition: background-color 1s;
-}
-.text-center {
+.animated-background {
+  display: grid;
+  height: 100%;
   width: 100%;
+  grid-template-columns: repeat(10, 1fr);
   position: absolute;
-  top: 50%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.animated-background div {
+  background-color: white;
+  transition: background-color 1s ease;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 800px;
+  padding: var(--space-8);
   opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease-out 0.5s forwards;
 }
-i {
-  font-size: 65px;
-  color: #222222;
-  position: absolute;
-  top: 30px;
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-@media (max-width: 570px) {
-  .p-5.text-center {
-    font-size: 2.1vw;
+
+.hero-icon-container {
+  position: relative;
+  margin-bottom: var(--space-6);
+}
+
+.hero-icon {
+  font-size: 4rem;
+  color: var(--primary-600);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.hero-text {
+  margin-bottom: var(--space-8);
+}
+
+.hero-title {
+  font-size: var(--font-size-4xl);
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: var(--space-4);
+  background: linear-gradient(135deg, var(--gray-900), var(--primary-700));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: var(--font-size-lg);
+  color: var(--gray-600);
+  margin-bottom: var(--space-3);
+  font-weight: 500;
+}
+
+.hero-description {
+  font-size: var(--font-size-base);
+  color: var(--gray-500);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.hero-actions {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-lg {
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  border-radius: var(--radius-lg);
+  min-width: 200px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-lg i {
+  font-size: var(--font-size-base);
+  margin-right: 0;
+}
+
+.btn-lg span {
+  white-space: nowrap;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-content {
+    padding: var(--space-6) var(--space-4);
+  }
+  
+  .hero-title {
+    font-size: var(--font-size-3xl);
+  }
+  
+  .hero-subtitle {
+    font-size: var(--font-size-base);
+  }
+  
+  .hero-icon {
+    font-size: 3rem;
+  }
+  
+  .hero-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn-lg {
+    width: 100%;
+    max-width: 280px;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .hero-subtitle {
+    font-size: var(--font-size-sm);
+  }
+  
+  .hero-description {
+    font-size: var(--font-size-sm);
+  }
+  
+  .hero-icon {
+    font-size: 2.5rem;
   }
 }
 
 @media (max-width: 400px) {
-  .p-5.text-center h5 {
+  .hero-subtitle {
     display: none;
   }
 }

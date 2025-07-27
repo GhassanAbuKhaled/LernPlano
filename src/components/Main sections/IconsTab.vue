@@ -1,53 +1,152 @@
 <template>
-  <ul class="nav justify-content-center fs-5">
-    <li class="nav-item">
-      <i class="bi bi-filetype-json nav-link" data-bs-toggle="tooltip" data-bs-placement="top"
-        data-bs-title="Download json" @click="downloadData"></i>
-    </li>
-    <li class="nav-item">
-      <i class="bi bi-file-pdf-fill nav-link" data-bs-toggle="tooltip" data-bs-placement="top"
-        data-bs-title="Download pdf" @click="downloadPDF"></i>
-    </li>
-    <li v-for="icon in draggableIcons" :key="icon.class" class="nav-item" data-bs-toggle="tooltip" data-bs-placement="top"
-      :data-bs-title="icon.name" v-show="this.$store.state.componentData.senarios">
-      <i :class="['bi', icon.class, 'nav-link']"></i>
-    </li>
-    <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Alle Interaktionen">
-      <i class="bi bi-list-columns nav-link" data-bs-toggle="modal" data-bs-target="#AllInteraktionenBackdrop"></i>
-    </li>
-    <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Ausgewählte Interaktionen">
-      <i class="bi bi-list-check nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions"
-        aria-controls="offcanvasWithBothOptions"></i>
-    </li>
-    <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Alle Löschen">
-      <i class="bi bi-shield-fill-x nav-link" @click="resetArbeitsBereich"></i>
-    </li>
-    <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Neu senario">
-      <i class="bi bi-plus-circle-fill nav-link" id="addSenario" @click="addSenario"></i>
-    </li>
-    <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Lösche senario">
-      <i class="bi bi-dash-circle-fill nav-link" @click="deleteSenario"></i>
-    </li>
-
-    <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="LernPfad Name und Lernziele">
-      <i class="bi bi-info-circle-fill nav-link" id="lernPfadInfo" data-bs-toggle="modal"
-        data-bs-target="#lernPfadInfo"></i>
-    </li>
-
-    <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Alle Senarios"
-      v-show="this.$store.state.componentData.senarios">
-      <div class="btn-group nav-link">
-        <button class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          Senarios
+  <div class="modern-toolbar" role="toolbar" aria-label="Learning path tools">
+    <div class="toolbar-section">
+      <h3 class="toolbar-title">Werkzeuge</h3>
+      <div class="tool-group">
+        <button 
+          class="tool-btn tool-btn-primary" 
+          @click="downloadData"
+          data-bs-toggle="tooltip" 
+          data-bs-placement="top"
+          data-bs-title="Als JSON herunterladen"
+          aria-label="Lernpfad als JSON-Datei herunterladen"
+        >
+          <i class="bi bi-file-earmark-code-fill" aria-hidden="true"></i>
+          <span class="tool-label">JSON</span>
         </button>
-        <ul class="dropdown-menu">
-          <li v-for="index in this.$store.state.componentData.senarios" :key="index">
-            <small class="dropdown-item" @click="goToSenario(index)">Senario {{ index }}</small>
-          </li>
-        </ul>
+        
+        <button 
+          class="tool-btn tool-btn-primary" 
+          @click="downloadPDF"
+          data-bs-toggle="tooltip" 
+          data-bs-placement="top"
+          data-bs-title="Als PDF herunterladen"
+          aria-label="Lernpfad als PDF herunterladen"
+        >
+          <i class="bi bi-file-earmark-pdf-fill" aria-hidden="true"></i>
+          <span class="tool-label">PDF</span>
+        </button>
       </div>
-    </li>
-  </ul>
+    </div>
+
+    <div class="toolbar-section" v-show="this.$store.state.componentData.senarios">
+      <h3 class="toolbar-title">Elemente</h3>
+      <div class="tool-group">
+        <div 
+          v-for="icon in draggableIcons" 
+          :key="icon.class" 
+          class="tool-btn tool-btn-draggable nav-item"
+          data-bs-toggle="tooltip" 
+          data-bs-placement="top"
+          :data-bs-title="icon.name"
+          :aria-label="`${icon.name} hinzufügen`"
+        >
+          <i :class="['bi', icon.class, 'nav-link']" aria-hidden="true"></i>
+          <span class="tool-label">{{ icon.name }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="toolbar-section">
+      <h3 class="toolbar-title">Aktionen</h3>
+      <div class="tool-group">
+        <button 
+          class="tool-btn tool-btn-secondary" 
+          data-bs-toggle="modal" 
+          data-bs-target="#AllInteraktionenBackdrop"
+          aria-label="Alle verfügbaren Interaktionen anzeigen"
+        >
+          <i class="bi bi-grid-3x3-gap-fill" aria-hidden="true"></i>
+          <span class="tool-label">Alle</span>
+        </button>
+        
+        <button 
+          class="tool-btn tool-btn-secondary" 
+          data-bs-toggle="offcanvas" 
+          data-bs-target="#offcanvasWithBothOptions"
+          aria-controls="offcanvasWithBothOptions"
+          aria-label="Ausgewählte Interaktionen anzeigen"
+        >
+          <i class="bi bi-check2-square" aria-hidden="true"></i>
+          <span class="tool-label">Auswahl</span>
+        </button>
+        
+        <button 
+          class="tool-btn tool-btn-danger" 
+          @click="resetArbeitsBereich"
+          data-bs-toggle="tooltip" 
+          data-bs-placement="top"
+          data-bs-title="Alles löschen"
+          aria-label="Alle Szenarien löschen"
+        >
+          <i class="bi bi-trash3-fill" aria-hidden="true"></i>
+          <span class="tool-label">Löschen</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="toolbar-section">
+      <h3 class="toolbar-title">Szenarien</h3>
+      <div class="tool-group">
+        <button 
+          class="tool-btn tool-btn-success" 
+          id="addSenario" 
+          @click="addSenario"
+          data-bs-toggle="tooltip" 
+          data-bs-placement="top"
+          data-bs-title="Neues Szenario hinzufügen"
+          aria-label="Neues Szenario erstellen"
+        >
+          <i class="bi bi-plus-circle-fill" aria-hidden="true"></i>
+          <span class="tool-label">Neu</span>
+        </button>
+        
+        <button 
+          class="tool-btn tool-btn-warning" 
+          @click="deleteSenario"
+          data-bs-toggle="tooltip" 
+          data-bs-placement="top"
+          data-bs-title="Aktuelles Szenario löschen"
+          aria-label="Aktuelles Szenario löschen"
+        >
+          <i class="bi bi-dash-circle-fill" aria-hidden="true"></i>
+          <span class="tool-label">Entfernen</span>
+        </button>
+        
+        <button 
+          class="tool-btn tool-btn-info" 
+          id="lernPfadInfo" 
+          data-bs-toggle="modal"
+          data-bs-target="#lernPfadInfo"
+          aria-label="Lernpfad-Name und Lernziele bearbeiten"
+        >
+          <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+          <span class="tool-label">Info</span>
+        </button>
+        
+        <div class="dropdown" v-show="this.$store.state.componentData.senarios">
+          <button 
+            class="tool-btn tool-btn-secondary dropdown-toggle" 
+            type="button" 
+            data-bs-toggle="dropdown" 
+            aria-expanded="false"
+            aria-label="Zwischen Szenarien wechseln"
+          >
+            <i class="bi bi-layers-fill" aria-hidden="true"></i>
+            <span class="tool-label">Szenarien</span>
+          </button>
+          <ul class="dropdown-menu modern-dropdown">
+            <li v-for="index in this.$store.state.componentData.senarios" :key="index">
+              <button class="dropdown-item" @click="goToSenario(index)">
+                <i class="bi bi-play-circle-fill me-2" aria-hidden="true"></i>
+                Szenario {{ index }}
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 import { Tooltip } from "bootstrap/dist/js/bootstrap.js";
@@ -57,10 +156,10 @@ export default {
   data() {
     return {
       draggableIcons: [
-        { class: "bi-image", id: "img", name: "Image" },
-        { class: "bi-link", id: "link", name: "URL" },
-        { class: "bi-calendar-month", id: "date", name: "Date" },
-        { class: "bi-chat-left-text", id: "kommentar", name: "Text" },
+        { class: "bi-image-fill", id: "img", name: "Image" },
+        { class: "bi-link-45deg", id: "link", name: "URL" },
+        { class: "bi-calendar-event-fill", id: "date", name: "Date" },
+        { class: "bi-chat-square-text-fill", id: "kommentar", name: "Text" },
       ],
     };
   },
@@ -72,7 +171,7 @@ export default {
   methods: {
     makeIconsDraggable() {
       this.draggableIcons.forEach((icon) => {
-        $(`.${icon.class}`).draggable({
+        $(`.${icon.class}.nav-link`).draggable({
           appendTo: "body",
           iframeFix: true,
           helper: function () {
@@ -185,42 +284,252 @@ export default {
 };
 </script>
 <style scoped>
-.nav {
-  height: fit-content;
-  background: #a1cc59;
+.modern-toolbar {
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-200);
+  padding: var(--space-6);
+  display: flex;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+  align-items: flex-start;
 }
-.dropdown-menu {
-  min-height: 40px;
-  max-height: 250px;
-  overflow-y: scroll;
+
+.toolbar-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 120px;
 }
-.dropdown-item {
+
+.toolbar-title {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--gray-700);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+  padding-bottom: var(--space-2);
+  border-bottom: 2px solid var(--gray-200);
+}
+
+.tool-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.tool-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border: 2px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  background: white;
+  color: var(--gray-600);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
   cursor: pointer;
+  transition: all var(--transition-fast);
+  width: 70px;
+  height: 70px;
+  text-align: center;
 }
-.bi {
-  cursor: pointer;
-  font-weight: bolder;
+
+.tool-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--gray-400);
 }
-.clone {
-  color: tomato;
-  font-weight: bolder;
-  font-size: larger;
-  z-index:30;
+
+.tool-btn i {
+  font-size: var(--font-size-lg);
 }
+
+.tool-label {
+  font-size: var(--font-size-xs);
+  line-height: 1;
+}
+
+/* Button variants */
+.tool-btn-primary {
+  border-color: var(--primary-300);
+  color: var(--primary-700);
+  background: var(--primary-50);
+}
+
+.tool-btn-primary:hover {
+  border-color: var(--primary-500);
+  background: var(--primary-100);
+  color: var(--primary-800);
+}
+
+.tool-btn-secondary {
+  border-color: var(--gray-300);
+  color: var(--gray-600);
+}
+
+.tool-btn-secondary:hover {
+  border-color: var(--gray-400);
+  background: var(--gray-50);
+  color: var(--gray-700);
+}
+
+.tool-btn-success {
+  border-color: #86efac;
+  color: var(--success);
+  background: #f0fdf4;
+}
+
+.tool-btn-success:hover {
+  border-color: var(--success);
+  background: #dcfce7;
+}
+
+.tool-btn-warning {
+  border-color: #fcd34d;
+  color: var(--warning);
+  background: #fffbeb;
+}
+
+.tool-btn-warning:hover {
+  border-color: var(--warning);
+  background: #fef3c7;
+}
+
+.tool-btn-danger {
+  border-color: #fca5a5;
+  color: var(--error);
+  background: #fef2f2;
+}
+
+.tool-btn-danger:hover {
+  border-color: var(--error);
+  background: #fee2e2;
+}
+
+.tool-btn-info {
+  border-color: var(--primary-300);
+  color: var(--info);
+  background: var(--primary-50);
+}
+
+.tool-btn-info:hover {
+  border-color: var(--info);
+  background: var(--primary-100);
+}
+
+/* Draggable tools */
+.tool-btn-draggable {
+  border-color: #a78bfa;
+  color: #7c3aed;
+  background: #f5f3ff;
+}
+
+.tool-btn-draggable:hover {
+  border-color: #7c3aed;
+  background: #ede9fe;
+}
+
 .bi-chat-left-text,
 .bi-calendar-month,
 .bi-link,
 .bi-pin-fill,
 .bi-image {
-  cursor: all-scroll;
-}
-.nav-item i:hover {
-  transform: scale(1.2);
-  color: black;
+  cursor: grab;
 }
 
-i,
-button {
-  color: white;
+.bi-chat-left-text:active,
+.bi-calendar-month:active,
+.bi-link:active,
+.bi-pin-fill:active,
+.bi-image:active {
+  cursor: grabbing;
+}
+
+/* Dropdown */
+.dropdown {
+  position: relative;
+}
+
+.modern-dropdown {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--gray-200);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-2);
+  min-width: 180px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  border: none;
+  background: none;
+  color: var(--gray-700);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  width: 100%;
+  text-align: left;
+}
+
+.dropdown-item:hover {
+  background: var(--primary-50);
+  color: var(--primary-700);
+}
+
+/* Clone styles for dragging */
+.clone {
+  color: var(--primary-600) !important;
+  font-weight: bold;
+  font-size: 1.5rem !important;
+  z-index: 1000;
+  opacity: 0.8;
+  transform: scale(1.1);
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .modern-toolbar {
+    gap: var(--space-6);
+  }
+  
+  .toolbar-section {
+    min-width: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .modern-toolbar {
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-4);
+  }
+  
+  .toolbar-section {
+    width: 100%;
+    min-width: auto;
+  }
+  
+  .tool-group {
+    justify-content: center;
+  }
+  
+  .tool-btn {
+    min-width: 50px;
+    padding: var(--space-2);
+  }
+  
+  .tool-label {
+    display: none;
+  }
 }
 </style>

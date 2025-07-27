@@ -1,7 +1,9 @@
 <template>
-  <div>
+  <div id="app" class="app-container">
     <Navbar></Navbar>
-    <router-view></router-view>
+    <main class="main-content" role="main">
+      <router-view></router-view>
+    </main>
     <MyFooter></MyFooter>
     <MyToast></MyToast>
     <MyAlert></MyAlert>
@@ -33,5 +35,16 @@ export default {
 };
 </script>
 
+<style>
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
-
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+</style>

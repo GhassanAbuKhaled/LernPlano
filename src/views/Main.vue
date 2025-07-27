@@ -1,13 +1,17 @@
 <template>
-  <Backdrop></Backdrop>
-  <OffCanvasRight></OffCanvasRight>
-  <PfadInfo></PfadInfo> 
-  <div class="m-4">
-    <div class="row iconsTab">
-      <IconsTab></IconsTab>
-    </div>
-    <div class="row">
-      <ArbeitsBereich></ArbeitsBereich>
+  <div class="main-workspace">
+    <Backdrop></Backdrop>
+    <OffCanvasRight></OffCanvasRight>
+    <PfadInfo></PfadInfo>
+    
+    <div class="workspace-container">
+      <div class="toolbar-section">
+        <IconsTab></IconsTab>
+      </div>
+      
+      <div class="work-area-section">
+        <ArbeitsBereich></ArbeitsBereich>
+      </div>
     </div>
   </div>
 </template>
@@ -30,9 +34,43 @@ export default {
 </script>
 
 <style scoped>
-.iconsTab {
+.main-workspace {
+  min-height: 100vh;
+  background: var(--gray-50);
+}
+
+.workspace-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--space-6);
+}
+
+.toolbar-section {
   position: sticky;
-  top: -1px;
-  z-index: 20;
+  top: 80px;
+  z-index: 100;
+  margin-bottom: var(--space-6);
+  background: var(--gray-50);
+  padding: var(--space-2) 0;
+  border-radius: var(--radius-lg);
+}
+
+.work-area-section {
+  background: white;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-200);
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .workspace-container {
+    padding: var(--space-4);
+  }
+  
+  .toolbar-section {
+    top: 70px;
+    margin-bottom: var(--space-4);
+  }
 }
 </style>
