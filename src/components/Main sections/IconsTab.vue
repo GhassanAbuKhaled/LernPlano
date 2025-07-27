@@ -285,39 +285,56 @@ export default {
 </script>
 <style scoped>
 .modern-toolbar {
-  background: white;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--gray-200);
-  padding: var(--space-6);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(247, 249, 252, 0.9));
+  backdrop-filter: blur(20px);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(217, 226, 236, 0.4);
+  padding: var(--space-8);
   display: flex;
+  flex-direction: column;
   gap: var(--space-8);
-  flex-wrap: wrap;
-  align-items: flex-start;
+  position: relative;
+  overflow: hidden;
+}
+
+.modern-toolbar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-500), var(--accent-teal), var(--accent-purple));
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
 }
 
 .toolbar-section {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  min-width: 120px;
 }
 
 .toolbar-title {
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  color: var(--gray-700);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--gray-800);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   margin: 0;
-  padding-bottom: var(--space-2);
-  border-bottom: 2px solid var(--gray-200);
+  padding: var(--space-3) var(--space-4);
+  background: linear-gradient(135deg, var(--primary-50), rgba(240, 244, 248, 0.6));
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--primary-500);
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .tool-group {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
+  justify-content: flex-start;
 }
 
 .tool-btn {
@@ -326,46 +343,63 @@ export default {
   align-items: center;
   justify-content: center;
   gap: var(--space-1);
-  padding: var(--space-3);
+  padding: var(--space-2) var(--space-3);
   border: 2px solid var(--gray-300);
-  border-radius: var(--radius-md);
-  background: white;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(145deg, white, rgba(247, 249, 252, 0.8));
   color: var(--gray-600);
   font-size: var(--font-size-xs);
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: all var(--transition-fast);
-  width: 70px;
-  height: 70px;
+  transition: all var(--transition-normal);
+  min-width: 70px;
+  width: auto;
+  height: 65px;
   text-align: center;
+  position: relative;
+  overflow: visible;
 }
 
+
+
 .tool-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--gray-400);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12), 0 4px 10px rgba(0, 0, 0, 0.08);
+  border-color: var(--primary-400);
 }
 
 .tool-btn i {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-xl);
+  transition: all var(--transition-fast);
+}
+
+.tool-btn:hover i {
+  transform: scale(1.1);
 }
 
 .tool-label {
-  font-size: var(--font-size-xs);
-  line-height: 1;
+  font-size: 10px;
+  line-height: 1.1;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  max-width: 100px;
 }
 
 /* Button variants */
 .tool-btn-primary {
-  border-color: var(--primary-300);
+  border-color: var(--primary-400);
   color: var(--primary-700);
-  background: var(--primary-50);
+  background: linear-gradient(145deg, var(--primary-50), rgba(240, 244, 248, 0.9));
+  box-shadow: 0 4px 8px rgba(98, 125, 152, 0.15);
 }
 
 .tool-btn-primary:hover {
   border-color: var(--primary-500);
-  background: var(--primary-100);
+  background: linear-gradient(145deg, var(--primary-100), var(--primary-50));
   color: var(--primary-800);
+  box-shadow: 0 8px 25px rgba(98, 125, 152, 0.25);
 }
 
 .tool-btn-secondary {
@@ -380,36 +414,42 @@ export default {
 }
 
 .tool-btn-success {
-  border-color: #86efac;
+  border-color: var(--success);
   color: var(--success);
-  background: #f0fdf4;
+  background: linear-gradient(145deg, var(--success-light), rgba(198, 246, 213, 0.8));
+  box-shadow: 0 4px 8px rgba(56, 161, 105, 0.15);
 }
 
 .tool-btn-success:hover {
   border-color: var(--success);
-  background: #dcfce7;
+  background: linear-gradient(145deg, #c6f6d5, var(--success-light));
+  box-shadow: 0 8px 25px rgba(56, 161, 105, 0.25);
 }
 
 .tool-btn-warning {
-  border-color: #fcd34d;
+  border-color: var(--warning);
   color: var(--warning);
-  background: #fffbeb;
+  background: linear-gradient(145deg, var(--warning-light), rgba(250, 240, 137, 0.8));
+  box-shadow: 0 4px 8px rgba(214, 158, 46, 0.15);
 }
 
 .tool-btn-warning:hover {
   border-color: var(--warning);
-  background: #fef3c7;
+  background: linear-gradient(145deg, #faf089, var(--warning-light));
+  box-shadow: 0 8px 25px rgba(214, 158, 46, 0.25);
 }
 
 .tool-btn-danger {
-  border-color: #fca5a5;
+  border-color: var(--error);
   color: var(--error);
-  background: #fef2f2;
+  background: linear-gradient(145deg, var(--error-light), rgba(254, 215, 215, 0.8));
+  box-shadow: 0 4px 8px rgba(229, 62, 62, 0.15);
 }
 
 .tool-btn-danger:hover {
   border-color: var(--error);
-  background: #fee2e2;
+  background: linear-gradient(145deg, #fed7d7, var(--error-light));
+  box-shadow: 0 8px 25px rgba(229, 62, 62, 0.25);
 }
 
 .tool-btn-info {
@@ -425,14 +465,16 @@ export default {
 
 /* Draggable tools */
 .tool-btn-draggable {
-  border-color: #a78bfa;
-  color: #7c3aed;
-  background: #f5f3ff;
+  border-color: var(--accent-purple);
+  color: var(--accent-purple);
+  background: linear-gradient(145deg, var(--accent-purple-light), rgba(233, 216, 253, 0.8));
+  box-shadow: 0 4px 8px rgba(128, 90, 213, 0.15);
 }
 
 .tool-btn-draggable:hover {
-  border-color: #7c3aed;
-  background: #ede9fe;
+  border-color: var(--accent-purple);
+  background: linear-gradient(145deg, #e9d8fd, var(--accent-purple-light));
+  box-shadow: 0 8px 25px rgba(128, 90, 213, 0.25);
 }
 
 .bi-chat-left-text,
@@ -499,28 +541,24 @@ export default {
 /* Responsive design */
 @media (max-width: 1024px) {
   .modern-toolbar {
-    gap: var(--space-6);
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-4);
   }
   
   .toolbar-section {
-    min-width: 100px;
+    min-width: 120px;
+  }
+  
+  .tool-group {
+    display: flex;
+    flex-wrap: wrap;
   }
 }
 
 @media (max-width: 768px) {
   .modern-toolbar {
-    flex-direction: column;
-    gap: var(--space-4);
     padding: var(--space-4);
-  }
-  
-  .toolbar-section {
-    width: 100%;
-    min-width: auto;
-  }
-  
-  .tool-group {
-    justify-content: center;
   }
   
   .tool-btn {

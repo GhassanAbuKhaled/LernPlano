@@ -1,16 +1,39 @@
 <template>
   <input v-show="false" type="file" ref="formFile" accept="image/*" multiple @change="handleFile" />
 
-  <div :id="id" class="position-relative senario">
-    <div class="senarioContainer m-2  pb-5 shadow-lg bg-body-tertiary rounded" ref="senarioContainer" :id="'senarioContainer'+id">
-      <p class="text-center p-3 align-self-center shadow-lg bg-body-tertiary rounded senarioTitle position-sticky top-0 z-3">
-        <strong>{{ id }}</strong>
-      </p>
+  <div :id="id" class="scenario-workspace">
+    <div class="scenario-container" ref="senarioContainer" :id="'senarioContainer'+id">
+      <div class="scenario-header">
+        <div class="scenario-title-card">
+          <div class="scenario-icon">
+            <i class="bi bi-layers-fill" aria-hidden="true"></i>
+          </div>
+          <h3 class="scenario-title">{{ id.replace('Senario-', 'Szenario ') }}</h3>
+          <div class="scenario-status">
+            <span class="status-indicator" :class="{ 'active': hasImg }"></span>
+            <span class="status-text">{{ hasImg ? 'Bereit' : 'Bild erforderlich' }}</span>
+          </div>
+        </div>
+      </div>
 
-      <component v-for="(item, key) in this.$store.state.componentData.senariosData[this.id]
-        .component" :key="key" :is="getComponentName(key)" :id="key" :senario="id"
-        @contextmenu="handleRightClick(key, $event)" :componentProps="item">
-      </component>
+      <div class="scenario-content">
+        <div class="content-area" :class="{ 'has-image': hasImg }">
+          <div class="sortable-container" ref="sortableContainer">
+            <component v-for="(item, key) in this.$store.state.componentData.senariosData[this.id]
+              .component" :key="key" :is="getComponentName(key)" :id="key" :senario="id"
+              @contextmenu="handleRightClick(key, $event)" :componentProps="item">
+            </component>
+          </div>
+          
+          <div v-if="!hasImg" class="drop-zone">
+            <div class="drop-zone-content">
+              <i class="bi bi-cloud-upload drop-icon" aria-hidden="true"></i>
+              <h4 class="drop-title">Bild hinzufügen</h4>
+              <p class="drop-description">Ziehen Sie ein Bild hierher, um zu beginnen</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -23,6 +46,7 @@ import MyKommentar from "../Items/MyKommentar.vue";
 import MyImage from "../Items/MyImage.vue";
 import { handleRightClickAction, rgbToHex } from "@/utils/rightClickUtils";
 import { showToastMessage } from "@/utils/toastUtils";
+
 
 export default {
   props: {
@@ -42,7 +66,11 @@ export default {
           activeClass: "highlight",
           drop: this.checkIfImgExsist,
         })
-      $(this.$refs.senarioContainer).sortable({ cancel: '.senarioTitle , .myCanvasContainer' })
+      $(this.$refs.sortableContainer).sortable({
+        handle: '.drag-handle',
+        axis: 'y',
+        containment: 'parent'
+      });
 
     } catch (error) {
       console.error(error);
@@ -147,25 +175,214 @@ export default {
         500
       );
     },
+
   },
 };
 </script>
 
 <style scoped>
-.senarioContainer {
-  min-height: 700px;
-  max-height: 730px;
+.scenario-workspace {
+  margin-bottom: var(--space-8);
+}
+
+.scenario-container {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(15px);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(217, 226, 236, 0.3);
+  overflow: hidden;
+  transition: all var(--transition-normal);
+}
+
+.scenario-container:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+}
+
+.scenario-header {
+  background: linear-gradient(135deg, var(--primary-50), rgba(240, 244, 248, 0.8));
+  border-bottom: 1px solid rgba(217, 226, 236, 0.3);
+  padding: var(--space-4);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.scenario-title-card {
   display: flex;
-  margin-bottom: 200px;
-  padding-bottom: 200px !important;
+  align-items: center;
+  gap: var(--space-4);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.scenario-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--primary-500), var(--accent-teal));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: var(--font-size-lg);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.scenario-title {
+  flex: 1;
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--gray-800);
+  margin: 0;
+}
+
+.scenario-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gray-400);
+  transition: background-color var(--transition-fast);
+}
+
+.status-indicator.active {
+  background: var(--success);
+  box-shadow: 0 0 0 2px var(--success-light);
+}
+
+.status-text {
+  font-size: var(--font-size-sm);
+  color: var(--gray-600);
+  font-weight: 500;
+}
+
+.scenario-content {
+  min-height: 600px;
+  max-height: 800px;
+  overflow-y: auto;
+  padding: var(--space-8);
+}
+
+.content-area {
+  display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+  gap: var(--space-6);
+  min-height: 500px;
+  max-width: 800px;
+  margin: 0 auto;
 }
+
+.drop-zone {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--primary-300);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--primary-50), rgba(240, 244, 248, 0.5));
+  transition: all var(--transition-fast);
+  min-height: 300px;
+}
+
+.drop-zone:hover {
+  border-color: var(--primary-400);
+  background: linear-gradient(135deg, var(--primary-100), var(--primary-50));
+}
+
+.drop-zone-content {
+  text-align: center;
+  color: var(--gray-600);
+}
+
+.drop-icon {
+  font-size: 3rem;
+  color: var(--primary-400);
+  margin-bottom: var(--space-4);
+}
+
+.drop-title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: var(--space-2);
+}
+
+.drop-description {
+  font-size: var(--font-size-sm);
+  color: var(--gray-500);
+  margin: 0;
+}
+
+/* Highlight effect for drag and drop */
 .highlight {
-  box-shadow: 0 0 3px 3px red;
+  box-shadow: 0 0 0 3px var(--primary-200), 0 0 20px rgba(98, 125, 152, 0.3);
+  border-color: var(--primary-400) !important;
 }
-.senarioTitle {
-  height: fit-content;
-  width: 80%;
+
+/* Custom scrollbar */
+.scenario-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scenario-content::-webkit-scrollbar-track {
+  background: var(--gray-100);
+  border-radius: 3px;
+}
+
+.scenario-content::-webkit-scrollbar-thumb {
+  background: var(--gray-300);
+  border-radius: 3px;
+}
+
+.scenario-content::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-400);
+}
+
+/* Sortable placeholder */
+.sortable-placeholder {
+  background: linear-gradient(135deg, var(--primary-100), rgba(240, 244, 248, 0.8));
+  border: 2px dashed var(--primary-300);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-4);
+  min-height: 80px;
+  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sortable-placeholder::after {
+  content: 'Hier ablegen';
+  color: var(--primary-500);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .scenario-title-card {
+    flex-direction: column;
+    gap: var(--space-3);
+    text-align: center;
+  }
+  
+  .scenario-content {
+    padding: var(--space-4);
+    max-height: 500px;
+  }
+  
+  .drop-zone {
+    min-height: 200px;
+  }
+  
+  .drop-icon {
+    font-size: 2rem;
+  }
 }
 </style>

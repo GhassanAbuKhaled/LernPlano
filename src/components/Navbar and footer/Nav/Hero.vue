@@ -216,7 +216,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--gray-50) 0%, var(--primary-50) 100%);
+  background: linear-gradient(135deg, #f7f9fc 0%, #e8f4f8 50%, #d9e8f5 100%);
 }
 
 .animated-background {
@@ -260,8 +260,11 @@ export default {
 
 .hero-icon {
   font-size: 4rem;
-  color: var(--primary-600);
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  background: linear-gradient(135deg, var(--primary-500), var(--accent-teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
 }
 
 .hero-text {
@@ -271,9 +274,9 @@ export default {
 .hero-title {
   font-size: var(--font-size-4xl);
   font-weight: 700;
-  color: var(--gray-900);
+  color: var(--gray-800);
   margin-bottom: var(--space-4);
-  background: linear-gradient(135deg, var(--gray-900), var(--primary-700));
+  background: linear-gradient(135deg, var(--gray-800), var(--primary-600));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

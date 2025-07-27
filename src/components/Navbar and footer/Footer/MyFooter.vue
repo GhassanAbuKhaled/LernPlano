@@ -35,9 +35,9 @@ export default {
 <style scoped>
 .modern-footer {
   margin-top: auto;
-  background: var(--gray-900);
+  background: linear-gradient(135deg, var(--gray-800), var(--gray-900));
   color: var(--gray-300);
-  border-top: 1px solid var(--gray-800);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .footer-container {
@@ -69,7 +69,10 @@ export default {
 .footer-brand-text {
   font-size: var(--font-size-lg);
   font-weight: 600;
-  color: white;
+  background: linear-gradient(135deg, white, var(--primary-200));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .footer-nav {
@@ -118,21 +121,22 @@ export default {
 
 /* Override nav link styles for footer */
 .footer-nav :deep(.nav-link) {
-  color: var(--gray-300) !important;
+  color: rgba(255, 255, 255, 0.8) !important;
   padding: var(--space-2) var(--space-3);
   font-size: var(--font-size-sm);
   border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
 }
 
 .footer-nav :deep(.nav-link:hover) {
   color: white !important;
-  background-color: var(--gray-800);
+  background: rgba(255, 255, 255, 0.1);
   transform: none;
 }
 
 .footer-nav :deep(.nav-link.router-link-active) {
-  color: var(--primary-400) !important;
-  background-color: var(--gray-800);
+  color: var(--primary-200) !important;
+  background: rgba(98, 125, 152, 0.2);
 }
 
 .footer-nav :deep(.nav-link.router-link-active::after) {

@@ -5,11 +5,11 @@
     <PfadInfo></PfadInfo>
     
     <div class="workspace-container">
-      <div class="toolbar-section">
+      <div class="sidebar-section">
         <IconsTab></IconsTab>
       </div>
       
-      <div class="work-area-section">
+      <div class="main-section">
         <ArbeitsBereich></ArbeitsBereich>
       </div>
     </div>
@@ -36,41 +36,54 @@ export default {
 <style scoped>
 .main-workspace {
   min-height: 100vh;
-  background: var(--gray-50);
+  background: linear-gradient(135deg, #f7f9fc 0%, #ecf1f6 50%, #e8f4f8 100%);
 }
 
 .workspace-container {
+  display: flex;
+  gap: var(--space-6);
   max-width: 1400px;
   margin: 0 auto;
   padding: var(--space-6);
+  min-height: calc(100vh - 120px);
 }
 
-.toolbar-section {
+.sidebar-section {
+  width: 320px;
+  flex-shrink: 0;
   position: sticky;
-  top: 80px;
-  z-index: 100;
-  margin-bottom: var(--space-6);
-  background: var(--gray-50);
-  padding: var(--space-2) 0;
-  border-radius: var(--radius-lg);
+  top: 100px;
+  height: fit-content;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
 }
 
-.work-area-section {
-  background: white;
+.main-section {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
   border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--gray-200);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(217, 226, 236, 0.3);
   overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  .workspace-container {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  
+  .sidebar-section {
+    width: 100%;
+    position: static;
+    max-height: none;
+  }
 }
 
 @media (max-width: 768px) {
   .workspace-container {
     padding: var(--space-4);
-  }
-  
-  .toolbar-section {
-    top: 70px;
-    margin-bottom: var(--space-4);
   }
 }
 </style>

@@ -1,8 +1,10 @@
 <template>
-  <div class="myCanvasContainer mb-5 align-self-center" @contextmenu="$emit('contextmenu', $event)" :id="id">
-    <div class="position-relative">
-      <canvas ref="canvas" class="border" :id="'canvas' + id"></canvas>
-      <canvas class="position-absolute top-0 start-0" ref="canvas2" :id="'canvas2' + id"></canvas>
+  <div class="myCanvasContainer mb-5" @contextmenu="$emit('contextmenu', $event)" :id="id">
+    <div class="image-wrapper">
+      <div class="position-relative">
+        <canvas ref="canvas" class="border" :id="'canvas' + id"></canvas>
+        <canvas class="position-absolute top-0 start-0" ref="canvas2" :id="'canvas2' + id"></canvas>
+      </div>
     </div>
     <div class="m-1 bg-light d-flex justify-content-center imgController">
       <button type="button" class="btn btn-primary m-1 btn-sm" @click="handelClick">
@@ -229,6 +231,20 @@ export default {
 </script>
 
 <style scoped>
+.myCanvasContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: var(--space-4);
+}
+
 .overlay {
   position: absolute;
   top: 0px;

@@ -40,10 +40,10 @@ export default {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--gray-200);
-  box-shadow: var(--shadow-sm);
+  background: rgba(247, 249, 252, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(217, 226, 236, 0.3);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
 }
 
 .modern-navbar {
@@ -87,7 +87,7 @@ export default {
 }
 
 .brand-text {
-  background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+  background: linear-gradient(135deg, var(--primary-600), var(--accent-teal));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

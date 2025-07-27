@@ -1,33 +1,45 @@
 :root {
-  /* Modern Color Palette */
-  --primary-50: #f0f9ff;
-  --primary-100: #e0f2fe;
-  --primary-200: #bae6fd;
-  --primary-300: #7dd3fc;
-  --primary-400: #38bdf8;
-  --primary-500: #0ea5e9;
-  --primary-600: #0284c7;
-  --primary-700: #0369a1;
-  --primary-800: #075985;
-  --primary-900: #0c4a6e;
+  /* Calm Contemporary Color Palette */
+  --primary-50: #f0f4f8;
+  --primary-100: #d9e2ec;
+  --primary-200: #bcccdc;
+  --primary-300: #9fb3c8;
+  --primary-400: #829ab1;
+  --primary-500: #627d98;
+  --primary-600: #486581;
+  --primary-700: #334e68;
+  --primary-800: #243b53;
+  --primary-900: #102a43;
   
-  /* Neutral Colors */
-  --gray-50: #f8fafc;
-  --gray-100: #f1f5f9;
-  --gray-200: #e2e8f0;
-  --gray-300: #cbd5e1;
-  --gray-400: #94a3b8;
-  --gray-500: #64748b;
-  --gray-600: #475569;
-  --gray-700: #334155;
-  --gray-800: #1e293b;
-  --gray-900: #0f172a;
+  /* Soft Neutral Colors */
+  --gray-50: #f7f9fc;
+  --gray-100: #ecf1f6;
+  --gray-200: #d9e2ec;
+  --gray-300: #c1d1e0;
+  --gray-400: #a0aec0;
+  --gray-500: #718096;
+  --gray-600: #4a5568;
+  --gray-700: #2d3748;
+  --gray-800: #1a202c;
+  --gray-900: #171923;
   
-  /* Semantic Colors */
-  --success: #10b981;
-  --warning: #f59e0b;
-  --error: #ef4444;
+  /* Gentle Semantic Colors */
+  --success: #38a169;
+  --success-light: #c6f6d5;
+  --warning: #d69e2e;
+  --warning-light: #faf089;
+  --error: #e53e3e;
+  --error-light: #fed7d7;
   --info: var(--primary-500);
+  --info-light: var(--primary-100);
+  
+  /* Accent Colors */
+  --accent-purple: #805ad5;
+  --accent-purple-light: #e9d8fd;
+  --accent-teal: #319795;
+  --accent-teal-light: #b2f5ea;
+  --accent-pink: #d53f8c;
+  --accent-pink-light: #fed7e2;
   
   /* Typography */
   --font-family-sans: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -88,8 +100,8 @@ body {
   font-family: var(--font-family-sans);
   font-size: var(--font-size-base);
   line-height: 1.6;
-  color: var(--gray-800);
-  background-color: var(--gray-50);
+  color: var(--gray-700);
+  background: linear-gradient(135deg, var(--gray-50) 0%, #fafbfc 100%);
   overflow-x: hidden !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -122,52 +134,55 @@ body {
 }
 
 .btn-primary {
-  background: var(--primary-600);
+  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
   color: white;
   box-shadow: var(--shadow-sm);
+  border: none;
 }
 
 .btn-primary:hover {
-  background: var(--primary-700);
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
   color: white;
 }
 
 .btn-primary:focus {
-  outline: 2px solid var(--primary-200);
+  outline: 2px solid var(--primary-300);
   outline-offset: 2px;
   color: white;
 }
 
 .btn-secondary {
-  background: var(--gray-100);
-  color: var(--gray-700);
-  border: 1px solid var(--gray-200);
+  background: var(--gray-50);
+  color: var(--gray-600);
+  border: 1px solid var(--gray-300);
 }
 
 .btn-secondary:hover {
-  background: var(--gray-200);
-  color: var(--gray-800);
+  background: var(--gray-100);
+  color: var(--gray-700);
   transform: translateY(-1px);
+  border-color: var(--gray-400);
 }
 
 /* Modern Card Styles */
 .card {
-  background: white;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--gray-200);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all var(--transition-normal);
 }
 
 .card:hover {
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
   transform: translateY(-2px);
 }
 
 .card-header {
-  background: var(--gray-50);
+  background: linear-gradient(135deg, var(--gray-50), rgba(255, 255, 255, 0.9));
   border-bottom: 1px solid var(--gray-200);
   padding: var(--space-4) var(--space-6);
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
@@ -184,13 +199,15 @@ body {
   padding: var(--space-3) var(--space-4);
   font-size: var(--font-size-sm);
   transition: all var(--transition-fast);
-  background: white;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(5px);
 }
 
 .form-control:focus {
-  border-color: var(--primary-500);
+  border-color: var(--primary-400);
   box-shadow: 0 0 0 3px var(--primary-100);
   outline: none;
+  background: white;
 }
 
 /* Hero Animation */

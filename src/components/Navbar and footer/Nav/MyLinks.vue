@@ -39,13 +39,13 @@ export default {
 
 .nav-link:hover {
   color: var(--primary-600);
-  background-color: var(--primary-50);
+  background: rgba(240, 244, 248, 0.7);
   transform: translateY(-1px);
 }
 
 .nav-link.router-link-active {
   color: var(--primary-700);
-  background-color: var(--primary-100);
+  background: linear-gradient(135deg, var(--primary-100), rgba(217, 226, 236, 0.5));
   font-weight: 600;
 }
 

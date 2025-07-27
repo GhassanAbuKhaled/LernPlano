@@ -48,7 +48,7 @@
           <p class="empty-state-description">
             Beginnen Sie mit der Erstellung Ihres Lernpfads, indem Sie Ihr erstes Szenario hinzufügen.
           </p>
-          <button class="btn btn-primary" @click="$emit('add-scenario')">
+          <button class="btn btn-primary" @click="addFirstScenario">
             <i class="bi bi-plus-circle me-2" aria-hidden="true"></i>
             Szenario hinzufügen
           </button>
@@ -80,6 +80,10 @@ export default {
     this.goToTheSenario(this.$store.state.componentData.activeSenario);
   },
   methods: {
+    addFirstScenario() {
+      // Trigger the same functionality as clicking the add scenario button in IconsTab
+      document.getElementById('addSenario').click();
+    },
     initSortable() {
       $(this.$refs.sortableContainer).sortable({
         items: ".draggable-item",
@@ -109,13 +113,14 @@ export default {
 
 <style scoped>
 .work-area {
-  background: var(--gray-50);
+  background: linear-gradient(135deg, #f7f9fc 0%, #ecf1f6 100%);
 }
 
 /* Scenario Navigation */
 .scenario-nav {
-  background: white;
-  border-bottom: 1px solid var(--gray-200);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(217, 226, 236, 0.3);
   padding: var(--space-4) var(--space-6);
   position: sticky;
   top: 0;
@@ -292,10 +297,11 @@ export default {
 
 /* Scenario Content */
 .scenario-content {
-  background: white;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--gray-200);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(217, 226, 236, 0.3);
   margin-bottom: var(--space-6);
   overflow: hidden;
   transition: all var(--transition-normal);
