@@ -562,12 +562,13 @@ export default {
   }
   
   .tool-btn {
-    min-width: 50px;
-    padding: var(--space-2);
+    min-width: 60px;
+    width: 60px;
+    height: 60px;
   }
   
   .tool-label {
-    display: none;
+    font-size: 9px;
   }
 }
 </style>

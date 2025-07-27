@@ -78,6 +78,7 @@ export default {
     width: 100%;
     position: static;
     max-height: none;
+    order: -1;
   }
 }
 
