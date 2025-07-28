@@ -17,7 +17,7 @@
         </button>
         
         <div class="navbar-collapse collapse" id="navContent">
-          <ul class="navbar-nav" role="menubar">
+          <ul class="navbar-nav ms-auto" role="menubar">
             <MyLinks :margin="'0'"></MyLinks>
           </ul>
         </div>
@@ -80,6 +80,12 @@ export default {
   font-weight: 600;
   font-size: var(--font-size-xl);
   transition: color var(--transition-fast);
+  outline: none;
+}
+
+.brand-link:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 .brand-link:hover {
@@ -120,10 +126,20 @@ export default {
 .navbar-nav {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-1);
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+@media (min-width: 992px) {
+  .navbar-collapse {
+    display: flex !important;
+  }
+  
+  .navbar-nav {
+    flex-direction: row;
+  }
 }
 
 @media (max-width: 991px) {
@@ -139,6 +155,14 @@ export default {
     background: white;
     border-top: 1px solid var(--gray-200);
     box-shadow: var(--shadow-md);
+    padding: 0 var(--space-6);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-in-out, padding 0.2s ease-in-out;
+  }
+  
+  .navbar-collapse.show {
+    max-height: 200px;
     padding: var(--space-4) var(--space-6);
   }
   

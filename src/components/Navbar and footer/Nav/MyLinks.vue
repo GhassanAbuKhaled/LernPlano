@@ -26,15 +26,21 @@ export default {
 .nav-link {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-3) var(--space-4);
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
   color: var(--gray-600);
   text-decoration: none;
   font-weight: 500;
   font-size: var(--font-size-sm);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   transition: all var(--transition-fast);
   position: relative;
+  outline: none;
+}
+
+.nav-link:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 .nav-link:hover {

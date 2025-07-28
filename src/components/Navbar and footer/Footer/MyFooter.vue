@@ -78,7 +78,7 @@ export default {
 .footer-nav {
   flex: 1;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 .footer-links {
