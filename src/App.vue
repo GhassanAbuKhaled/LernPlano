@@ -25,14 +25,26 @@ export default {
       // Clean up any remaining modal layers and toasts
       $('body > div.modal-backdrop.fade.show').remove()
       $('#app > div > div.offcanvas-backdrop.fade.show').remove()
-      $('#myOverlay').addClass('d-none')
-      $('#AlertToast').removeClass('show')
-      $('#toastMessage').removeClass('show')
+      
+      // Clean up confirmation dialog
+      const alertToast = $('#AlertToast');
+      const myOverlay = $('#myOverlay');
+      alertToast.removeClass('show');
+      myOverlay.addClass('d-none');
+      
+      // Clean up event listeners
+      alertToast.find('.btn-delete, .btn-cancel').off('click');
+      myOverlay.off('click');
+      
+      // Clean up regular toast
+      $('#toastMessage').removeClass('show');
+      $('#toastMessage').find('.toast-close').off('click');
+      
       $('#lernPfadInfo > div > div > div.modal-footer > button').click();
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
     },
-  },
+  }
 };
 </script>
 

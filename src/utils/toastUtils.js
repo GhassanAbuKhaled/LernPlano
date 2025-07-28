@@ -4,6 +4,9 @@ export function showToastMessage(msg, position = "top-0 end-0", delay = 5000) {
   const toastElement = $("#toastMessage");
   const toastContainer = $("#toastContainer");
   
+  // Clean up existing close button listeners
+  toastElement.find('.toast-close').off('click');
+  
   // Update positioning classes
   toastContainer.removeClass('top-50 start-50 translate-middle-x bottom-0 start-0 top-0 end-0');
   toastContainer.addClass(position);
@@ -16,7 +19,7 @@ export function showToastMessage(msg, position = "top-0 end-0", delay = 5000) {
   toastElement.addClass('show');
   
   // Auto-hide after delay
-  setTimeout(() => {
+  const hideTimeout = setTimeout(() => {
     toastElement.removeClass('show');
     setTimeout(() => {
       toastElement.hide();
@@ -24,20 +27,30 @@ export function showToastMessage(msg, position = "top-0 end-0", delay = 5000) {
   }, delay);
   
   // Handle close button
-  toastElement.find('.toast-close').off('click').on('click', () => {
+  toastElement.find('.toast-close').on('click', () => {
+    clearTimeout(hideTimeout);
     toastElement.removeClass('show');
     setTimeout(() => {
       toastElement.hide();
     }, 300);
   });
   
-  return { hide: () => toastElement.removeClass('show') };
+  return { 
+    hide: () => {
+      clearTimeout(hideTimeout);
+      toastElement.removeClass('show');
+    }
+  };
 }
 
 export function showDeleteToast() {
   return new Promise((resolve) => {
     const toastElement = $("#AlertToast");
     const myOverlay = $("#myOverlay");
+    
+    // Clean up any existing event listeners first
+    toastElement.find(".btn-delete, .btn-cancel").off('click');
+    myOverlay.off('click');
     
     // Show backdrop and toast with modern animation
     myOverlay.removeClass("d-none");
@@ -54,6 +67,7 @@ export function showDeleteToast() {
       // Clean up event listeners
       deleteButton.off('click');
       cancelButton.off('click');
+      myOverlay.off('click');
       
       resolve(result);
     };

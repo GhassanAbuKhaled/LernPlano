@@ -114,7 +114,7 @@ export default {
 }
 
 .toast-container {
-  z-index: 10050100;
+  z-index: 1060;
 }
 
 .toast-container:hover {

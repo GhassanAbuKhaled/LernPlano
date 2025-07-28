@@ -39,7 +39,8 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1100;
+  z-index: 1050;
+  pointer-events: none;
 }
 
 .modern-alert {
@@ -51,11 +52,13 @@ export default {
   transform: scale(0.9);
   opacity: 0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
 }
 
 .modern-alert.show {
   transform: scale(1);
   opacity: 1;
+  pointer-events: auto;
 }
 
 .alert-content {
@@ -150,7 +153,7 @@ export default {
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
-  z-index: 1090;
+  z-index: 1040;
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
