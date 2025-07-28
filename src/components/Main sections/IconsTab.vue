@@ -40,6 +40,7 @@
           data-bs-placement="top"
           :data-bs-title="icon.name"
           :aria-label="`${icon.name} hinzufügen`"
+          @click="addIconToCurrentScenario(icon)"
         >
           <i :class="['bi', icon.class, 'nav-link']" aria-hidden="true"></i>
           <span class="tool-label">{{ icon.name }}</span>
@@ -279,6 +280,57 @@ export default {
       this.$store.state.componentData.activeSenario = `Senario-${index}`;
       $('[id^="Senario-"]').hide();
       $("#Senario-" + index).show(400);
+    },
+    addIconToCurrentScenario(icon) {
+      const activeSenario = this.$store.state.componentData.activeSenario;
+      if (!activeSenario) {
+        showToastMessage("Bitte erstellen Sie zuerst ein Szenario!");
+        return;
+      }
+      
+      if (icon.id === "img" && !this.$store.state.componentData.senariosData[activeSenario]?.imgSrc) {
+        const fileInput = document.querySelector('input[type="file"][accept="image/*"]');
+        if (fileInput) {
+          fileInput.click();
+          this.$store.state.componentData.hasLastSenarioImg = true;
+        }
+      } else if (icon.id !== "img" && this.$store.state.componentData.senariosData[activeSenario]?.imgSrc) {
+        this.addComponentToScenario(activeSenario, icon.id);
+      } else if (!this.$store.state.componentData.senariosData[activeSenario]?.imgSrc) {
+        showToastMessage("Sie sollen ein Bild addieren !");
+      } else {
+        showToastMessage("Sie sollen einen neuen Senario addieren !");
+      }
+    },
+    addComponentToScenario(senarioId, itemId) {
+      const id = this.getComponentType(itemId) + Date.now();
+      const componentData = this.getComponentData(itemId);
+      this.$store.state.componentData.senariosData[senarioId].component[id] = componentData;
+      
+      if (itemId !== 'img') {
+        this.$nextTick(() => {
+          const scenarioContent = document.querySelector(`#${senarioId} .scenario-content`);
+          if (scenarioContent) {
+            $(scenarioContent).animate({ scrollTop: scenarioContent.scrollHeight }, 500);
+          }
+        });
+      }
+    },
+    getComponentType(itemId) {
+      switch (itemId) {
+        case "link": return "MyURL";
+        case "date": return "MyDate";
+        case "kommentar": return "MyKommentar";
+        default: return "MyInteraktion";
+      }
+    },
+    getComponentData(itemId) {
+      switch (itemId) {
+        case "link": return { url: "" };
+        case "date": return { date: "" };
+        case "kommentar": return { text: "" };
+        default: return { name: "Interaktion", color: "#688b09", taxonomie: "Taxonomie", bewertung: 0 };
+      }
     },
   },
 };
