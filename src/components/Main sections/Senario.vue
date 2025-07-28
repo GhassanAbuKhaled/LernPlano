@@ -1,7 +1,6 @@
 <template>
-  <input v-show="false" type="file" ref="formFile" accept="image/*" multiple @change="handleFile" />
-
   <div :id="id" class="scenario-workspace">
+    <input v-show="false" type="file" ref="formFile" accept="image/*" multiple @change="handleFile" />
     <div class="scenario-container" ref="senarioContainer" :id="'senarioContainer'+id">
       <div class="scenario-header">
         <div class="scenario-title-card">
@@ -193,6 +192,9 @@ export default {
   border: 1px solid rgba(217, 226, 236, 0.3);
   overflow: hidden;
   transition: all var(--transition-normal);
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .scenario-container:hover {

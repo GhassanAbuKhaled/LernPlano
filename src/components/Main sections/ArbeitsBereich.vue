@@ -59,7 +59,6 @@
         v-for="(value, key, index) in this.$store.state.componentData.senariosData"
         :key="key"
         :id="key"
-        class="scenario-content"
       ></Senario>
     </div>
   </div>
