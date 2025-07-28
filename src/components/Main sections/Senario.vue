@@ -20,7 +20,7 @@
           <div class="sortable-container" ref="sortableContainer">
             <component v-for="(item, key) in this.$store.state.componentData.senariosData[this.id]
               .component" :key="key" :is="getComponentName(key)" :id="key" :senario="id"
-              @contextmenu="handleRightClick(key, $event)" :componentProps="item">
+              :componentProps="item">
             </component>
           </div>
           
@@ -80,26 +80,7 @@ export default {
     getComponentName(key) {
       return key.replace(/\d+$/, "");
     },
-    async handleRightClick(key, event) {
-      const name = this.getComponentName(key);
 
-      if (!name.includes("Image")) {
-        // Handle right-click event and show the context menu
-        event.preventDefault();
-        const menuPosition = { x: event.clientX, y: event.clientY };
-        this.$store.state.componentData.menuPosition = menuPosition;
-        !name.includes("Interaktion")
-          ? $("#rightClickColor").hide()
-          : $("#rightClickColor").show();
-
-        if (name.includes("Interaktion")) {
-          const colorValue = $(`#${key}`).find("i, p").css("color");
-          const col = rgbToHex(colorValue);
-          $("#myPalette").val(col);
-        }
-        handleRightClickAction(name.replace(/My/, ""), key);
-      }
-    },
     addComponent(key, dataOfComponent) {
       // Add a component to the componentData and imagesTap data objects
       const id = key + Date.now();

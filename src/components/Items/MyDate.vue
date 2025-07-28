@@ -1,13 +1,18 @@
 <template>
-  <div @contextmenu="$emit('contextmenu', $event)" :id="id" class="date-item">
+  <div :id="id" class="date-item">
     <div class="item-card">
       <div class="item-header">
         <div class="item-icon">
           <i class="bi bi-calendar-event-fill" aria-hidden="true"></i>
         </div>
         <span class="item-label">Datum</span>
-        <div class="drag-handle">
-          <i class="bi bi-grip-vertical" aria-hidden="true"></i>
+        <div class="header-controls">
+          <button class="delete-icon" @click="deleteComponent" @mousedown="handleMouseDown" title="Löschen">
+            <i class="bi bi-trash3" aria-hidden="true"></i>
+          </button>
+          <div class="drag-handle">
+            <i class="bi bi-grip-vertical" aria-hidden="true"></i>
+          </div>
         </div>
       </div>
       <div class="item-content">
@@ -30,6 +35,7 @@
 </template>
 
 <script>
+import { showDeleteToast } from "@/utils/toastUtils";
 export default {
   data() {
     return {
@@ -44,11 +50,21 @@ export default {
     senario: { type: String },
     componentProps: { type: Object }
   },
-  emits: ['contextmenu'],
+
   watch: {
     date(newValue) {
       this.$store.state.componentData.senariosData[this.senario].component[this.id].date = newValue;
     }
+  },
+  methods: {
+    handleMouseDown(event) {
+      event.stopPropagation();
+    },
+    async deleteComponent() {
+      if (await showDeleteToast()) {
+        delete this.$store.state.componentData.senariosData[this.senario].component[this.id];
+      }
+    },
   },
   computed: {
     formattedDate() {
@@ -125,6 +141,32 @@ export default {
 .drag-handle:hover {
   color: var(--gray-600);
   background: rgba(0, 0, 0, 0.05);
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.delete-icon {
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: none;
+  color: var(--gray-400);
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.delete-icon:hover {
+  color: var(--error);
+  background: rgba(239, 68, 68, 0.1);
+  transform: scale(1.1);
 }
 
 .drag-handle:active {
