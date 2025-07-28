@@ -83,7 +83,7 @@ export default {
 
 .footer-links {
   display: flex;
-  gap: var(--space-6);
+  gap: var(--space-1);
   list-style: none;
   margin: 0;
   padding: 0;

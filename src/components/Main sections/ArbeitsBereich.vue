@@ -305,6 +305,8 @@ export default {
   margin-bottom: var(--space-6);
   overflow: hidden;
   transition: all var(--transition-normal);
+  width: 100%;
+  max-width: 800px;
 }
 
 .scenario-content:hover {
