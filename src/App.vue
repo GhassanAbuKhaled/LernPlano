@@ -22,16 +22,15 @@ export default {
   components: { MyFooter, Navbar, MyToast, MyAlert, PdfProgressModal },
   watch: {
     '$route'(to, from) {
-      /*because when I move to another page using the back arrow in the browser, 
-      there remains the transparent layer of the modal, 
-      which prevents me from clicking on anything on the page*/
+      // Clean up any remaining modal layers and toasts
       $('body > div.modal-backdrop.fade.show').remove()
       $('#app > div > div.offcanvas-backdrop.fade.show').remove()
-      $('#AlertToast > div.toast-body > div.modal-footer > button.btn.btn-secondary.btn-sm').click()
+      $('#myOverlay').addClass('d-none')
+      $('#AlertToast').removeClass('show')
+      $('#toastMessage').removeClass('show')
       $('#lernPfadInfo > div > div > div.modal-footer > button').click();
-      $('#toastMessage > div.toast-header.text-light > button').click()
-      document.body.scrollTop = 0; // For Safari
-      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE, and Opera
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
     },
   },
 };
