@@ -39,7 +39,7 @@ export default {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     min-width: 320px;
     max-width: 400px;
-    pointer-events: auto;
+    pointer-events: none;
     transform: translateY(-20px);
     opacity: 0;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -48,6 +48,7 @@ export default {
 .modern-toast.show {
     transform: translateY(0);
     opacity: 1;
+    pointer-events: auto;
 }
 
 .toast-content {
