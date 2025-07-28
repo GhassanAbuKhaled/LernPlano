@@ -289,7 +289,7 @@ export default {
       }
       
       if (icon.id === "img" && !this.$store.state.componentData.senariosData[activeSenario]?.imgSrc) {
-        const fileInput = document.querySelector('input[type="file"][accept="image/*"]');
+        const fileInput = document.querySelector(`#${activeSenario} input[type="file"][accept="image/*"]`);
         if (fileInput) {
           fileInput.click();
           this.$store.state.componentData.hasLastSenarioImg = true;
